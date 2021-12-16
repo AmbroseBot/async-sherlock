@@ -11,11 +11,6 @@ from sherlock.result import QueryStatus, QueryResult
 from sherlock.sites import SitesInformation
 
 
-class Response:
-    def __init__(self):
-        self.found: List[str] = []
-
-
 class Sherlock:
     """
     An async impl of sherlock for embedded usage.
@@ -31,18 +26,19 @@ class Sherlock:
 
         self.timeout = 15
 
+    async def request(self, username: str) -> List:
         self.underlying_session: httpx.AsyncClient = httpx.AsyncClient()
-
-    async def request(self, username: str) -> Response:
         results = await self._request(username)
-        response: Response = Response()
+        response: List = []
         for website_name in results:
             dictionary = results[website_name]
             try:
                 if dictionary.get("status").status == QueryStatus.CLAIMED:
-                    response.found.append(dictionary["url_user"])
+                    response.append(dictionary["url_user"])
             except AttributeError:
                 continue
+
+        await self.underlying_session.aclose()
 
         return response
 
