@@ -28,3 +28,8 @@ Heres a little speed comparison:
 
 Plus you get the added benefit that you can easily embed this 
 into your applications rather than being restricted to command line.
+
+---
+
+Licensing, usage, etc is the same as [Sherlock](https://github.com/sherlock-project/sherlock).
+Please refer to that repo in that regard.
